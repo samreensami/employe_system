@@ -1,0 +1,11 @@
+{
+  "platform": "linkedin",
+  "platform_name": "LinkedIn",
+  "content": "Test broadcast from Zoya AI - Phase II MCP Integration!",
+  "timestamp": "2026-02-13T01:11:41.321302",
+  "source": "Zoya_AI_Employee",
+  "mcp_tool": "linkedin_post",
+  "api_endpoint": "https://api.linkedin.com/v2/ugcPosts",
+  "visibility": "PUBLIC",
+  "author": "urn:li:person:USER_ID"
+}

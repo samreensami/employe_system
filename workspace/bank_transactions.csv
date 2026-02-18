@@ -1,0 +1,23 @@
+date,description,amount,type,category
+2026-01-01,Notion Subscription,-10.00,expense,software
+2026-01-02,Slack Premium,-20.00,expense,software
+2026-01-03,GitHub Pro,-5.00,expense,software
+2026-01-05,Sales Revenue,15000.00,revenue,product_sales
+2026-01-07,Slack Premium,-20.00,expense,software
+2026-01-08,Client Payment,5000.00,revenue,services
+2026-01-10,Notion Subscription,-10.00,expense,software
+2026-01-12,Google Workspace,-25.00,expense,software
+2026-01-15,Sales Revenue,12000.00,revenue,product_sales
+2026-01-17,Zoom Pro,-15.00,expense,software
+2026-01-20,Notion Subscription,-10.00,expense,software
+2026-01-22,Slack Premium,-25.00,expense,software
+2026-01-25,Client Payment,8000.00,revenue,services
+2026-01-28,Notion Subscription,-10.00,expense,software
+2026-01-29,Amazon Web Services,-150.00,expense,cloud_services
+2026-02-01,Sales Revenue,18000.00,revenue,product_sales
+2026-02-03,Slack Premium,-25.00,expense,software
+2026-02-05,Notion Subscription,-10.00,expense,software
+2026-02-07,Adobe Creative Cloud,-52.99,expense,software
+2026-02-08,Client Payment,6500.00,revenue,services
+2026-02-10,Notion Subscription,-10.00,expense,software
+2026-02-11,Slack Premium,-25.00,expense,software

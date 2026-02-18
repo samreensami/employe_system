@@ -1,0 +1,10 @@
+{
+  "server": "social",
+  "tool": "linkedin_post",
+  "params": {
+    "content": "Test post from Zoya AI!"
+  },
+  "timestamp": "2026-02-12T21:27:24.687176",
+  "status": "pending_manual_action",
+  "mode": "FILE_BASED_FALLBACK"
+}

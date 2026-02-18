@@ -1,0 +1,15 @@
+{
+  "source_of_truth": [
+    "obsidian_vault/"
+  ],
+  "exclude_patterns": [
+    "logs/",
+    "workspace/"
+  ],
+  "watch_directories": [
+    "obsidian_vault/inbox/",
+    "obsidian_vault/Needs_Action/",
+    "obsidian_vault/Done/",
+    "obsidian_vault/Plans/"
+  ]
+}

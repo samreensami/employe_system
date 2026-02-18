@@ -1,0 +1,1 @@
+Task: Research top 3 MCP servers for Gmail integration and list their features.

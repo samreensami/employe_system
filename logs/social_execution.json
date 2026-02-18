@@ -1,0 +1,32 @@
+[
+  {
+    "timestamp": "2026-02-13T01:11:41.383524",
+    "platform": "linkedin",
+    "platform_name": "LinkedIn",
+    "icon": "\ud83d\udcbc",
+    "status": "FILE_BASED_SUCCESS",
+    "mcp_used": false,
+    "post_id": "N/A",
+    "message": "Post queued (File-Based): LinkedIn"
+  },
+  {
+    "timestamp": "2026-02-13T01:11:41.481941",
+    "platform": "twitter",
+    "platform_name": "Twitter (X)",
+    "icon": "\ud83d\udc26",
+    "status": "FILE_BASED_SUCCESS",
+    "mcp_used": false,
+    "post_id": "N/A",
+    "message": "Post queued (File-Based): Twitter (X)"
+  },
+  {
+    "timestamp": "2026-02-13T01:11:41.540600",
+    "platform": "facebook",
+    "platform_name": "Facebook",
+    "icon": "\ud83d\udc65",
+    "status": "FILE_BASED_SUCCESS",
+    "mcp_used": false,
+    "post_id": "N/A",
+    "message": "Post queued (File-Based): Facebook"
+  }
+]

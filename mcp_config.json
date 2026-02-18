@@ -1,0 +1,197 @@
+{
+  "mcpServers": {
+    "google": {
+      "name": "Google MCP Server",
+      "description": "Handle Gmail operations - reading emails, sending messages, managing orders",
+      "command": "npx",
+      "args": ["-y", "@anthropic/google-mcp-server"],
+      "transport": "stdio",
+      "env": {
+        "GOOGLE_CLIENT_ID": "${GOOGLE_CLIENT_ID}",
+        "GOOGLE_CLIENT_SECRET": "${GOOGLE_CLIENT_SECRET}",
+        "GOOGLE_REFRESH_TOKEN": "${GOOGLE_REFRESH_TOKEN}"
+      },
+      "endpoints": {
+        "gmail_read": "https://gmail.googleapis.com/gmail/v1/users/me/messages",
+        "gmail_send": "https://gmail.googleapis.com/gmail/v1/users/me/messages/send",
+        "gmail_search": "https://gmail.googleapis.com/gmail/v1/users/me/messages",
+        "gmail_label": "https://gmail.googleapis.com/gmail/v1/users/me/labels"
+      },
+      "tools": ["gmail_read", "gmail_send", "gmail_search", "gmail_label", "calendar_read", "calendar_create"],
+      "status": "configured",
+      "fallback": "file_based"
+    },
+    "fetch": {
+      "name": "Fetch MCP Server",
+      "description": "Scrape websites or read live data from URLs",
+      "command": "npx",
+      "args": ["-y", "@anthropic/fetch-mcp-server"],
+      "transport": "stdio",
+      "env": {},
+      "endpoints": {
+        "fetch_url": "dynamic",
+        "fetch_html": "dynamic",
+        "fetch_json": "dynamic",
+        "fetch_text": "dynamic"
+      },
+      "tools": ["fetch_url", "fetch_html", "fetch_json", "fetch_text"],
+      "status": "configured",
+      "fallback": "file_based"
+    },
+    "slack": {
+      "name": "Slack MCP Server",
+      "description": "Send real-time notifications to Slack channels",
+      "command": "npx",
+      "args": ["-y", "@anthropic/slack-mcp-server"],
+      "transport": "stdio",
+      "env": {
+        "SLACK_BOT_TOKEN": "${SLACK_BOT_TOKEN}",
+        "SLACK_CHANNEL_ID": "${SLACK_CHANNEL_ID}"
+      },
+      "endpoints": {
+        "slack_post": "https://slack.com/api/chat.postMessage",
+        "slack_reply": "https://slack.com/api/chat.postMessage",
+        "slack_react": "https://slack.com/api/reactions.add",
+        "slack_upload": "https://slack.com/api/files.upload"
+      },
+      "tools": ["slack_post", "slack_reply", "slack_react", "slack_upload"],
+      "status": "configured",
+      "fallback": "file_based"
+    },
+    "whatsapp": {
+      "name": "WhatsApp MCP Server",
+      "description": "Send WhatsApp messages and notifications via WhatsApp Business API",
+      "command": "npx",
+      "args": ["-y", "@anthropic/whatsapp-mcp-server"],
+      "transport": "stdio",
+      "env": {
+        "WHATSAPP_API_KEY": "${WHATSAPP_API_KEY}",
+        "WHATSAPP_PHONE_ID": "${WHATSAPP_PHONE_ID}",
+        "WHATSAPP_BUSINESS_ID": "${WHATSAPP_BUSINESS_ID}"
+      },
+      "endpoints": {
+        "whatsapp_send": "https://graph.facebook.com/v18.0/${PHONE_ID}/messages",
+        "whatsapp_template": "https://graph.facebook.com/v18.0/${PHONE_ID}/messages",
+        "whatsapp_media": "https://graph.facebook.com/v18.0/${PHONE_ID}/media"
+      },
+      "tools": ["whatsapp_send", "whatsapp_template", "whatsapp_media"],
+      "status": "configured",
+      "fallback": "file_based"
+    },
+    "social": {
+      "name": "Social Media MCP Server",
+      "description": "Unified social media posting - LinkedIn, Twitter/X, Instagram, Facebook",
+      "command": "npx",
+      "args": ["-y", "@anthropic/social-mcp-server"],
+      "transport": "stdio",
+      "env": {
+        "LINKEDIN_ACCESS_TOKEN": "${LINKEDIN_ACCESS_TOKEN}",
+        "LINKEDIN_CLIENT_ID": "${LINKEDIN_CLIENT_ID}",
+        "LINKEDIN_CLIENT_SECRET": "${LINKEDIN_CLIENT_SECRET}",
+        "TWITTER_API_KEY": "${TWITTER_API_KEY}",
+        "TWITTER_API_SECRET": "${TWITTER_API_SECRET}",
+        "TWITTER_ACCESS_TOKEN": "${TWITTER_ACCESS_TOKEN}",
+        "TWITTER_ACCESS_SECRET": "${TWITTER_ACCESS_SECRET}",
+        "INSTAGRAM_ACCESS_TOKEN": "${INSTAGRAM_ACCESS_TOKEN}",
+        "INSTAGRAM_BUSINESS_ID": "${INSTAGRAM_BUSINESS_ID}",
+        "FACEBOOK_ACCESS_TOKEN": "${FACEBOOK_ACCESS_TOKEN}",
+        "FACEBOOK_PAGE_ID": "${FACEBOOK_PAGE_ID}"
+      },
+      "endpoints": {
+        "linkedin_post": "https://api.linkedin.com/v2/ugcPosts",
+        "linkedin_share": "https://api.linkedin.com/v2/shares",
+        "twitter_post": "https://api.twitter.com/2/tweets",
+        "twitter_media": "https://upload.twitter.com/1.1/media/upload.json",
+        "instagram_post": "https://graph.instagram.com/me/media",
+        "instagram_publish": "https://graph.instagram.com/me/media_publish",
+        "facebook_post": "https://graph.facebook.com/v18.0/me/feed",
+        "facebook_photo": "https://graph.facebook.com/v18.0/me/photos"
+      },
+      "tools": [
+        "linkedin_post",
+        "linkedin_share",
+        "twitter_post",
+        "twitter_media",
+        "instagram_post",
+        "instagram_publish",
+        "facebook_post",
+        "facebook_photo",
+        "social_schedule"
+      ],
+      "platforms": {
+        "linkedin": {
+          "name": "LinkedIn",
+          "icon": "💼",
+          "max_chars": 3000,
+          "supports_media": true
+        },
+        "twitter": {
+          "name": "Twitter (X)",
+          "icon": "🐦",
+          "max_chars": 280,
+          "supports_media": true
+        },
+        "instagram": {
+          "name": "Instagram",
+          "icon": "📸",
+          "max_chars": 2200,
+          "supports_media": true,
+          "requires_media": true
+        },
+        "facebook": {
+          "name": "Facebook",
+          "icon": "👥",
+          "max_chars": 63206,
+          "supports_media": true
+        }
+      },
+      "status": "configured",
+      "fallback": "file_based"
+    },
+    "odoo": {
+      "name": "Odoo ERP MCP Server",
+      "description": "Manage Odoo invoices, payments, and partners via JSON-RPC",
+      "command": "python",
+      "args": ["skills/odoo_mcp_server.py"],
+      "transport": "stdio",
+      "env": {
+        "ODOO_URL": "${ODOO_URL}",
+        "ODOO_DB": "${ODOO_DB}",
+        "ODOO_USER": "${ODOO_USER}",
+        "ODOO_PASSWORD": "${ODOO_PASSWORD}"
+      },
+      "endpoints": {
+        "odoo_jsonrpc": "${ODOO_URL}/jsonrpc",
+        "odoo_web": "${ODOO_URL}/web"
+      },
+      "tools": [
+        "odoo_create_invoice",
+        "odoo_create_payment",
+        "odoo_search_partner",
+        "odoo_get_financials",
+        "odoo_post_invoice",
+        "odoo_post_payment"
+      ],
+      "status": "configured",
+      "fallback": "file_based"
+    }
+  },
+  "settings": {
+    "autoConnect": true,
+    "retryAttempts": 3,
+    "retryDelayMs": 1000,
+    "timeoutMs": 30000,
+    "logLevel": "info",
+    "fallbackMode": "file_based",
+    "auditLogging": true
+  },
+  "metadata": {
+    "version": "2.0.0",
+    "project": "samreensami/hack2-phase2",
+    "tier": "PLATINUM",
+    "phase": "Phase II - MCP Integration",
+    "created": "2026-02-12",
+    "updated": "2026-02-12",
+    "description": "MCP Server configuration for Zoya AI Employee - All social interactions via MCP"
+  }
+}
