@@ -30,7 +30,7 @@ def load_env():
     """Load environment variables from .env file."""
     env_path = Path('.env')
     if env_path.exists():
-        with open(env_path) as f:
+        with open(env_path, encoding='utf-8') as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith('#') and '=' in line:
@@ -79,6 +79,11 @@ class WhatsAppCloudAPI:
 
     def is_configured(self) -> bool:
         """Check if WhatsApp API is properly configured."""
+        # In demo/mock mode, consider configured if WHATSAPP_ENABLED=true
+        mock_mode = os.getenv('MOCK_MODE', 'false').lower() == 'true'
+        if mock_mode and self.enabled:
+            return True
+
         return bool(
             self.enabled and
             self.access_token and
@@ -124,14 +129,14 @@ class WhatsAppCloudAPI:
         logs = []
         if self.audit_log_path.exists():
             try:
-                with open(self.audit_log_path) as f:
+                with open(self.audit_log_path, encoding='utf-8') as f:
                     logs = json.load(f)
             except:
                 logs = []
 
         logs.append(entry)
 
-        with open(self.audit_log_path, 'w') as f:
+        with open(self.audit_log_path, 'w', encoding='utf-8') as f:
             json.dump(logs[-100:], f, indent=2)
 
         return entry

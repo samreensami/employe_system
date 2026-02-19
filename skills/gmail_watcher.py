@@ -112,7 +112,7 @@ class GmailWatcher(BaseWatcher):
         """Load previously processed message IDs from file."""
         try:
             if self.processed_ids_file.exists():
-                with open(self.processed_ids_file, 'r') as f:
+                with open(self.processed_ids_file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     self.processed_ids = set(data.get('processed_ids', []))
                     logger.info(f"Loaded {len(self.processed_ids)} processed message IDs")
@@ -126,7 +126,7 @@ class GmailWatcher(BaseWatcher):
             self.ensure_directory_exists(str(self.processed_ids_file.parent))
             # Keep only last 1000 IDs to prevent unbounded growth
             ids_list = list(self.processed_ids)[-1000:]
-            with open(self.processed_ids_file, 'w') as f:
+            with open(self.processed_ids_file, 'w', encoding='utf-8') as f:
                 json.dump({'processed_ids': ids_list, 'updated': datetime.now().isoformat()}, f)
         except Exception as e:
             logger.error(f"Could not save processed IDs: {e}")
@@ -181,7 +181,7 @@ class GmailWatcher(BaseWatcher):
             # Save credentials for future use
             try:
                 self.ensure_directory_exists(str(self.token_path.parent))
-                with open(self.token_path, 'w') as token:
+                with open(self.token_path, 'w', encoding='utf-8') as token:
                     token.write(creds.to_json())
                 logger.info(f"Saved credentials to {self.token_path}")
             except Exception as e:

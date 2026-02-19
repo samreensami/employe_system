@@ -1,3 +1,8 @@
 watchdog
 psutil
 requests
+# Phase III - Document Intelligence
+pytesseract
+easyocr
+pdf2image
+Pillow

@@ -35,7 +35,7 @@ def load_env_file():
     """Load environment variables from .env file if it exists."""
     env_path = Path('.env')
     if env_path.exists():
-        with open(env_path, 'r') as f:
+        with open(env_path, 'r', encoding='utf-8') as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith('#') and '=' in line:
@@ -78,7 +78,7 @@ class OdooMockLogger:
         existing_logs = []
         if os.path.exists(self.log_path):
             try:
-                with open(self.log_path, 'r') as f:
+                with open(self.log_path, 'r', encoding='utf-8') as f:
                     content = f.read().strip()
                     if content:
                         existing_logs = json.loads(content)
@@ -89,7 +89,7 @@ class OdooMockLogger:
 
         existing_logs.append(log_entry)
 
-        with open(self.log_path, 'w') as f:
+        with open(self.log_path, 'w', encoding='utf-8') as f:
             json.dump(existing_logs, f, indent=2)
 
         return log_entry

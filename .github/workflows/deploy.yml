@@ -1,26 +1,49 @@
-name: Deploy Zoya Bot (Phase 2)
+name: Zoya AI - Phase III CI
+
 on:
   push:
     branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
 jobs:
-  deploy:
+  test:
     runs-on: ubuntu-latest
+    timeout-minutes: 5  # Fast timeout - prevent hanging
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
+
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.11'
+
       - name: Install dependencies
-        run: pip install -r requirements.txt
-      - name: Run Bot
+        run: |
+          pip install watchdog psutil requests
+
+      - name: Setup environment
+        run: |
+          echo "MOCK_MODE=true" > .env
+          echo "WHATSAPP_ENABLED=true" >> .env
+          echo "GMAIL_ENABLED=true" >> .env
+          mkdir -p logs obsidian_vault/{inbox,needs_action,Plans,Approved,Done}
+
+      - name: Test core imports
         env:
-          ODOO_URL: ${{ secrets.ODOO_URL }}
-          ODOO_DB: ${{ secrets.ODOO_DB }}
-          ODOO_USER: ${{ secrets.ODOO_USER }}
-          ODOO_PASSWORD: ${{ secrets.ODOO_PASSWORD }}
-          WHATSAPP_ACCESS_TOKEN: ${{ secrets.WHATSAPP_ACCESS_TOKEN }}
-          WHATSAPP_PHONE_NUMBER_ID: ${{ secrets.WHATSAPP_PHONE_NUMBER_ID }}
-          WHATSAPP_BUSINESS_ACCOUNT_ID: ${{ secrets.WHATSAPP_BUSINESS_ACCOUNT_ID }}
-          WHATSAPP_ENABLED: "true"
-        run: python start_agent.py
+          MOCK_MODE: "true"
+        run: |
+          python -c "
+          from skills.mcp_client import get_mcp_client, is_mcp_active
+          from skills.odoo_client import OdooClient
+          from skills.invoice_parser import get_parser_status
+          from skills.whatsapp_skill import is_whatsapp_active
+          print('✓ All imports OK')
+          print(f'✓ MCP Active: {is_mcp_active()}')
+          print(f'✓ WhatsApp: {is_whatsapp_active()}')
+          print(f'✓ Parser: {get_parser_status()[\"ready\"]}')
+          "
+
+      - name: Build status
+        run: echo "✅ Zoya AI Phase III - Build Passed"

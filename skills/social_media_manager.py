@@ -35,7 +35,7 @@ def load_env():
     """Load environment variables from .env file."""
     env_path = Path('.env')
     if env_path.exists():
-        with open(env_path) as f:
+        with open(env_path, encoding='utf-8') as f:
             for line in f:
                 line = line.strip()
                 if line and not line.startswith('#') and '=' in line:
@@ -187,14 +187,14 @@ class SocialMediaManager:
         logs = []
         if self.audit_log_path.exists():
             try:
-                with open(self.audit_log_path) as f:
+                with open(self.audit_log_path, encoding='utf-8') as f:
                     logs = json.load(f)
             except:
                 logs = []
 
         logs.append(entry)
 
-        with open(self.audit_log_path, 'w') as f:
+        with open(self.audit_log_path, 'w', encoding='utf-8') as f:
             json.dump(logs[-100:], f, indent=2)
 
     def _log_execution(self, platform: str, status: str, result: Dict):
@@ -214,14 +214,14 @@ class SocialMediaManager:
         logs = []
         if self.execution_log_path.exists():
             try:
-                with open(self.execution_log_path) as f:
+                with open(self.execution_log_path, encoding='utf-8') as f:
                     logs = json.load(f)
             except:
                 logs = []
 
         logs.append(entry)
 
-        with open(self.execution_log_path, 'w') as f:
+        with open(self.execution_log_path, 'w', encoding='utf-8') as f:
             json.dump(logs[-50:], f, indent=2)
 
         return entry
@@ -307,7 +307,7 @@ class SocialMediaManager:
         timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
         fallback_file = fallback_dir / f"{platform}_{timestamp}.json"
 
-        with open(fallback_file, 'w') as f:
+        with open(fallback_file, 'w', encoding='utf-8') as f:
             json.dump(payload, f, indent=2)
 
         print(f"[ZOYA SOCIAL] ✓ Saved to: {fallback_file}")
@@ -392,7 +392,7 @@ class SocialMediaManager:
             return []
 
         try:
-            with open(self.execution_log_path) as f:
+            with open(self.execution_log_path, encoding='utf-8') as f:
                 logs = json.load(f)
             return logs[-limit:]
         except:

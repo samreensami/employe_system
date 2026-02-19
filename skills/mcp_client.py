@@ -19,6 +19,30 @@ from datetime import datetime
 from typing import Dict, List, Optional, Any, Tuple
 
 
+def load_env_file():
+    """Load environment variables from .env file if it exists."""
+    env_path = Path('.env')
+    if env_path.exists():
+        try:
+            with open(env_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if line and not line.startswith('#') and '=' in line:
+                        key, value = line.split('=', 1)
+                        os.environ.setdefault(key.strip(), value.strip())
+        except Exception:
+            pass
+
+
+# Load .env file on module import
+load_env_file()
+
+
+def is_mock_mode() -> bool:
+    """Check if running in mock/demo mode."""
+    return os.getenv('MOCK_MODE', 'false').lower() == 'true'
+
+
 class MCPClient:
     """
     Unified MCP (Model Context Protocol) client for Zoya AI.
@@ -37,8 +61,15 @@ class MCPClient:
     def _load_config(self) -> Dict:
         """Load MCP configuration from JSON file."""
         if self.config_path.exists():
-            with open(self.config_path) as f:
-                return json.load(f)
+            try:
+                with open(self.config_path, 'r', encoding='utf-8') as f:
+                    return json.load(f)
+            except (UnicodeDecodeError, json.JSONDecodeError) as e:
+                print(f"[MCP_CLIENT] Warning: Could not load config: {e}")
+                return {"mcpServers": {}, "settings": {}}
+            except Exception as e:
+                print(f"[MCP_CLIENT] Warning: Config load error: {e}")
+                return {"mcpServers": {}, "settings": {}}
         return {"mcpServers": {}, "settings": {}}
 
     def _check_server_status(self, server_name: str) -> bool:
@@ -46,10 +77,15 @@ class MCPClient:
         Check if an MCP server is active and ready.
 
         Returns True if:
-        1. Server is configured in mcp_config.json
-        2. Required environment variables are set
-        3. Server process can be started (or is already running)
+        1. MOCK_MODE is enabled (demo mode - all servers active)
+        2. Server is configured in mcp_config.json
+        3. Required environment variables are set
+        4. Server process can be started (or is already running)
         """
+        # In mock mode, all configured servers are "active" for demo purposes
+        if is_mock_mode():
+            return server_name in self.config.get("mcpServers", {})
+
         if server_name not in self.config.get("mcpServers", {}):
             return False
 
@@ -59,9 +95,18 @@ class MCPClient:
         if server_name == "whatsapp":
             try:
                 from skills.whatsapp_skill import is_whatsapp_active
+                # In mock mode or if WHATSAPP_ENABLED=true, consider active
+                if os.getenv('WHATSAPP_ENABLED', 'false').lower() == 'true':
+                    return True
                 return is_whatsapp_active()
             except ImportError:
-                pass
+                if os.getenv('WHATSAPP_ENABLED', 'false').lower() == 'true':
+                    return True
+
+        # Special check for Gmail - check GMAIL_ENABLED
+        if server_name == "google":
+            if os.getenv('GMAIL_ENABLED', 'false').lower() == 'true':
+                return True
 
         # Check if required env vars are set
         env_vars = server_config.get("env", {})
@@ -216,7 +261,7 @@ class MCPClient:
             "mode": "FILE_BASED_FALLBACK"
         }
 
-        with open(filepath, 'w') as f:
+        with open(filepath, 'w', encoding='utf-8') as f:
             json.dump(fallback_data, f, indent=2)
 
         return {
