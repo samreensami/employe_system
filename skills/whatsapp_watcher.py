@@ -157,7 +157,7 @@ class WhatsAppWatcher(BaseWatcher):
         """Load previously processed message IDs from file."""
         try:
             if self.processed_ids_file.exists():
-                with open(self.processed_ids_file, 'r') as f:
+                with open(self.processed_ids_file, 'r', encoding='utf-8') as f:
                     data = json.load(f)
                     self.processed_ids = set(data.get('processed_ids', []))
                     logger.info(f"Loaded {len(self.processed_ids)} processed WhatsApp message IDs")

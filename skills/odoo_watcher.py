@@ -209,7 +209,7 @@ class OdooWatcher(BaseWatcher):
             # Load existing log
             entries = []
             if audit_file.exists():
-                with open(audit_file, 'r') as f:
+                with open(audit_file, 'r', encoding='utf-8') as f:
                     entries = json.load(f)
 
             # Add new entry

@@ -54,7 +54,7 @@ class OdooConfig:
     @classmethod
     def from_file(cls, filepath: str) -> 'OdooConfig':
         """Load configuration from JSON file."""
-        with open(filepath, 'r') as f:
+        with open(filepath, 'r', encoding='utf-8') as f:
             data = json.load(f)
         return cls(**data)
 
